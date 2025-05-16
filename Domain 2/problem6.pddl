@@ -5,6 +5,7 @@
         red-bionicle blue-bionicle green-bionicle white-bionicle black-bionicle - item
         r1 r2 r3 r4 r5 r6 hw1 hw2 hw3 hw4 - room
         left-hand right-hand - hand ; Don't have hands? Try having them
+        dummy-key - key
     )
 
     (:init
@@ -40,7 +41,9 @@
 
     (:goal
         (and
-            (forall (?i - item) (in ?i r1))
+            (forall
+                (?i - item)
+                (in ?i r1))
             (free-hand c1 left-hand)
             (free-hand c1 right-hand)
         )

@@ -3,13 +3,13 @@
     (:types
         key item - holdable
         character room hand ; Behold, the hand
-    )
+        )
 
     (:predicates
         (at ?c - character ?r - room)
         (connected ?a - room ?b - room)
         (in ?i - holdable ?r - room)
-        (holds ?c - character ?i - holdable)
+        (holds ?c - character ?i - holdable ?h - hand)
         (free-hand ?c - character ?h - hand)
         (locked-door ?from - room ?to - room)
         (is-key ?k - key ?from - room ?to - room)
@@ -20,20 +20,6 @@
         :precondition (and
             (at ?who ?from)
             (connected ?from ?to)
-            (or
-                (not (= ?to r1))
-                (and
-                    (= ?to r1)
-                    (not (free-hand ?who left-hand))
-                    (not (free-hand ?who right-hand))
-                )
-                (and
-                    (= ?to r1)
-                    (forall
-                        (?i - item)
-                        (in ?i r1))
-                )
-            )
         )
         :effect (and
             (not (at ?who ?from))
@@ -50,18 +36,18 @@
         :effect (and
             (not (free-hand ?who ?hand))
             (not (in ?what ?at))
-            (holds ?who ?what))
+            (holds ?who ?what ?hand))
     )
 
     (:action drop
         :parameters (?who - character ?at - room ?what - holdable ?hand - hand)
         :precondition (and
-            (holds ?who ?what)
+            (holds ?who ?what ?hand)
             (at ?who ?at))
         :effect (and
             (free-hand ?who ?hand)
             (in ?what ?at)
-            (not (holds ?who ?what)))
+            (not (holds ?who ?what ?hand)))
     )
 
     (:action unlock
@@ -69,10 +55,10 @@
         :precondition (and
             (locked-door ?from ?to)
             (is-key ?key ?from ?to)
-            (holds ?who ?key)
+            (holds ?who ?key ?hand)
             (at ?who ?from))
         :effect (and
-            (not (holds ?who ?key))
+            (not (holds ?who ?key ?hand))
             (free-hand ?who ?hand)
             (not (locked-door ?from ?to))
             (not (locked-door ?to ?from))

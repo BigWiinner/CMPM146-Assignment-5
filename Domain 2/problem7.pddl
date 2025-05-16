@@ -2,7 +2,7 @@
     (:domain rooms)
     (:objects
         c1 - character
-        r d-bionicle blue-bionicle green-bionicle white-bionicle black-bionicle - item
+        red-bionicle blue-bionicle green-bionicle white-bionicle black-bionicle - item
         red-key blue-key green-key - key
         r1 r2 r3 r4 r5 r6 hw1 hw2 hw3 hw4 - room
         left-hand right-hand - hand
@@ -47,8 +47,9 @@
         (at c1 r1)
         (free-hand c1 left-hand)
         (free-hand c1 right-hand)
+    )
 
-        (:goal
+    (:goal
             (and
                 (forall
                     (?i - item)
@@ -57,5 +58,4 @@
                 (free-hand c1 right-hand)
             )
         )
-    )
 )
